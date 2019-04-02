@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DMBEncryptString</name>
+    </assembly>
+    <members>
+        <member name="M:EncryptString.StringCipher.Encrypt(System.String,System.String)">
+            <summary>
+            Methods to encrypt a passed string.
+            </summary>
+            <param name="plainText">Pass any string</param>
+            <param name="passPhrase">Pass the DMB BDApps pass phrase</param>       
+        </member>
+        <member name="M:EncryptString.StringCipher.Decrypt(System.String,System.String)">
+            <summary>
+            Methods to decrypt a passed string which has been previously encrypted.
+            </summary>
+            <param name="cipherText">Pass any string which has been previously encrypted using the DMB String Encryption util</param>
+            <param name="passPhrase">Pass the DMB BDApps pass phrase</param>       
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,28 @@
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\bin\Debug\New Wrapper.dll
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\bin\Debug\New Wrapper.pdb
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\obj\Debug\ResolveAssemblyReference.cache
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\obj\Debug\New Wrapper.dll
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\obj\Debug\New Wrapper.pdb
+C:\Application developments\New wrapper\bin\Debug\New Wrapper.dll
+C:\Application developments\New wrapper\bin\Debug\New Wrapper.pdb
+C:\Application developments\New wrapper\obj\Debug\ResolveAssemblyReference.cache
+C:\Application developments\New wrapper\obj\Debug\New Wrapper.dll
+C:\Application developments\New wrapper\obj\Debug\New Wrapper.pdb
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Debug\New Wrapper.XML
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Debug\New Wrapper.dll
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Debug\New Wrapper.pdb
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBEncryptString.dll
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBEncryptString.pdb
+C:\DeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.dll
+C:\DeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.pdb
+C:\DeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.csprojResolveAssemblyReference.cache
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\New Wrapper.XML
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\New Wrapper.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBEncryptString.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBTools.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\WrapperClass.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBTools.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBEncryptString.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.csprojResolveAssemblyReference.cache
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.pdb

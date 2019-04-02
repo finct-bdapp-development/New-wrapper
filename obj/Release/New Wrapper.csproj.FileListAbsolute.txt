@@ -1,0 +1,14 @@
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Release\New Wrapper.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Release\New Wrapper.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Release\DMBEncryptString.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Release\DMBEncryptString.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Release\ResolveAssemblyReference.cache
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Release\New Wrapper.dll
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Release\New Wrapper.pdb
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Release\DMBEncryptString.dll
+C:\DeveloperShare\CommonComponents\New wrapper\bin\Release\DMBEncryptString.pdb
+C:\DeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.csprojResolveAssemblyReference.cache
+C:\DeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.dll
+C:\DeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.pdb

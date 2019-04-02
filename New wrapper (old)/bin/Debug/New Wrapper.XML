@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>New Wrapper</name>
+    </assembly>
+    <members>
+        <member name="T:New_Wrapper.DataHandler">
+            <summary>
+            Handles the connecting to and updating of data using OLE
+            </summary>
+            //<remarks>The default instance of the data handler only connects and updates a single table. For datasets containing
+            multiple updateable tables use the MultiHandler</remarks>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.#ctor">
+            <summary>
+            Creates a default instance of the class - there will be no disconnected access to the underlying
+            data source
+            </summary>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.#ctor(System.String,System.String)">
+             <summary>
+             Creates an instance of the class. As part of creating the instance the class connects to the data
+             source
+             </summary>
+             <param name="connectionString">The provider string for connecting to the data source</param>
+             <param name="queryString">The query to be applied when creating the connection</param>
+             <remarks>This version of the method requires the full provider string (including any relevant password). It is therefore not
+             recommended for use with password protected data sources. Use the overloaded method which allows you to pass an encrypted
+             password when initializing the connection</remarks>
+             <example>
+             This example shows you how to connect to a non-password protected data source
+             <code>
+             public void ConnectToResultsData(string period)
+             {
+                string provider = Provider=Microsoft.Jet.OLEDB.4.0;Data Source="C:\SomeFolder\MyProject\Data.mdb";Jet OLEDB:Database Password=
+                ResultsHandler = new New_Wrapper.DataHandler(provider, "SELECT Results.CaseId, Results.Result FROM Results");
+                ExistingReturns = ResultsHandler.CreateDataset();
+             }
+             </code>
+            </example>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Connects to a database with an encrypted password
+            </summary>
+            <param name="connectionString">The base connection string without the password</param>
+            <param name="password">The encrypted password</param>
+            <param name="queryString">The query to be applied when creating the connection</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.CreateAdapter(System.String,System.String,System.Data.OleDb.OleDbDataAdapter@)">
+            <summary>
+            Creates a data adapter to handle communication between the class and the data source
+            </summary>
+            <param name="passedConnString">The provider string for connecting to the data source</param>
+            <param name="passedQuery">The query to be applied when creating the connection</param>
+            <param name="passedAdapter">The adapter that the connection will stored into</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.CreateDataset">
+            <summary>
+            Creates a dataset based on the data source connection
+            </summary>
+            <returns>A dataset containing the filtered data from the data source</returns>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.UpdateDataset(System.Data.DataSet)">
+            <summary>
+            Updates the data source with any changes made to the dataset
+            </summary>
+            <param name="passedDataset">The dataset that contains the changes</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.GetDataSet(System.String,System.String)">
+            <summary>
+            Creates a DataSet based on a SQL string
+            This method creates a separate data adapter to process the data request - it does not affect any
+            persistent connection made when creating the class
+            </summary>
+            <param name="provider">The provider string for connecting to the data source</param>
+            <param name="insertQuery">The query to be used when creating the DataSet based on the data source</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.GetDataSet(System.String,System.String,System.String)">
+            <summary>
+            Creates a DataSet based on a SQL string
+            This method creates a separate data adapter to process the data request - it does not affect any
+            persistent connection made when creating the class
+            </summary>
+            <param name="provider">The provider string for connecting to the data source</param>
+            <param name="password">The encrypted database password</param>
+            <param name="insertQuery">The query to be used when creating the DataSet based on the data source</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.InsertData(System.String,System.String)">
+            <summary>
+            Inserts data directly into the data source
+            This method creates a separate data adapter to process the insert command - it does not affect any
+            persistent connection made when creating the class
+            </summary>
+            <param name="provider">The provider string for connecting to the data source</param>
+            <param name="insertQuery">The insert query to be used when updating the data source</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.InsertData(System.String,System.String,System.String)">
+            <summary>
+            Inserts data directly into the data source
+            This method creates a separate data adapter to process the insert command - it does not affect any
+            persistent connection made when creating the class
+            </summary>
+            <param name="provider">The provider string for connecting to the data source</param>
+            <param name="password">The encrypted database password</param>
+            <param name="insertQuery">The insert query to be used when updating the data source</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.DeleteData(System.String,System.String)">
+            <summary>
+            Deletes data directly from the data source
+            this method creates a separate data adapter to process the delete command - it does not affect any
+            persistent connection made when creating the class
+            </summary>
+            <param name="provider">The provider string for connecting to the data source</param>
+            <param name="deleteQuery">The delete query to be used when updating the data source</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.DeleteData(System.String,System.String,System.String)">
+            <summary>
+            Deletes data directly from the data source
+            this method creates a separate data adapter to process the delete command - it does not affect any
+            persistent connection made when creating the class
+            </summary>
+            <param name="provider">The provider string for connecting to the data source</param>
+            <param name="password">The encrypted database password</param>
+            <param name="deleteQuery">The delete query to be used when updating the data source</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.UpdateData(System.String,System.String)">
+            <summary>
+            Updates data directly from the data source
+            this method creates a separate data adapter to process the update command - it does not affect any
+            persistent connection made when creating the class
+            </summary>
+            <param name="provider">The provider string for connecting to the data source</param>
+            <param name="deleteQuery">The update query to be used when updating the data source</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.UpdateData(System.String,System.String,System.String)">
+            <summary>
+            Updates data directly from the data source
+            this method creates a separate data adapter to process the update command - it does not affect any
+            persistent connection made when creating the class
+            </summary>
+            <param name="provider">The provider string for connecting to the data source</param>
+            <param name="password">The encrypted database password</param>
+            <param name="deleteQuery">The update query to be used when updating the data source</param>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.CreateDataset(System.String[])">
+            <summary>
+            Populates a dataset with multiple tables
+            </summary>
+            <param name="queryList">The tables to be inckuded in the dataset. Format = [query string; table name]</param>
+            <returns>A dataset containing the filtered data from the data source</returns>
+            <remarks>As you are changing the Select command for the data adapter this method should only be used when viewing
+            statuc data such as look up tables</remarks>
+        </member>
+        <member name="P:New_Wrapper.DataHandler.localAdapter">
+            <summary>
+            An adapter containing to the connection to the data source
+            </summary>
+        </member>
+        <member name="T:New_Wrapper.MultiTableHandler">
+            <summary>
+            Handles the connecting to and updating of data using OLE
+            </summary>
+            <remarks>The MultiTableHandler allows you to update multiple tables within a single dataset</remarks>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.#ctor">
+            <summary>
+            Default intialiser for the class. 
+            </summary>
+            <remarks>The properties for the class must be set prior to using the class to update or retrieve
+            data</remarks>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.#ctor(System.String[0:,0:],System.String)">
+            <summary>
+            Initialises the class and set the relevant properties
+            </summary>
+            <param name="passedQueries">The array containing the list of tables and associated queries</param>
+            <param name="passedProvider">The provider string for connecting to the database</param>
+            <remarks>The table name should be the first 'sub element' followed by the appropriate SQL query as
+            the second 'sub element'
+            For instance, selectQueries[0,0] = "tblMain" selectQueries[0,1] = "SELECT...."</remarks>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.#ctor(System.String[0:,0:],System.String,System.String)">
+            <summary>
+            Initialises the class and set the relevant properties
+            </summary>
+            <param name="passedQueries">The array containing the list of tables and associated queries</param>
+            <param name="passedProvider">The provider sting for connecting to the database</param>
+            <param name="passedPassword">The eencrypted password of the database</param>
+            <remarks>The table name should be the first 'sub element' followed by the appropriate SQL query as
+            the second 'sub element'
+            For instance, selectQueries[0,0] = "tblMain" selectQueries[0,1] = "SELECT...."</remarks>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.connectToData(System.String[0:,0:],System.String)">
+            <summary>
+            Connects to the data source and populates a data set with the requested tables
+            </summary>
+            <param name="passedQueries">The table names and SQL queries that the data tables will be based on</param>
+            <param name="passedProvider">The provider string for connecting to the data source</param>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.connectToData(System.String[0:,0:],System.String,System.String)">
+            <summary>
+            Connects to the data source and populates a data set with the requested tables
+            </summary>
+            <param name="passedQueries">The table names and SQL queries that the data tables will be based on</param>
+            <param name="passedProvider">The provider string for connecting to the data source</param>
+            <param name="passedPassword">The database's encrypted password</param>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.connectToData">
+            <summary>
+            Connects to the data source and populates a data set with the requested tables
+            </summary>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.UpdateData(System.String)">
+            <summary>
+            Updates the specified table(s) in the data set
+            </summary>
+            <param name="tableName">The name of the table that is to be updated</param>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.AddTableToDataset(System.Data.DataSet@,System.String)">
+            <summary>
+            Adds a table from the multihandler instance to an external dataset
+            </summary>
+            <param name="passedDataset">The dataset that the table is to be copied to</param>
+            <param name="passedTableName">The name of the table to be copied to the external dataset</param>
+            <remarks>The table being copied must already exist in the sourceData property of the class</remarks>
+        </member>
+        <member name="M:New_Wrapper.MultiTableHandler.AddTableToDataset(System.Data.DataSet@,System.String,System.String,System.String)">
+            <summary>
+            Adds a table from the multihandler instance to an external dataset
+            </summary>
+            <param name="passedDataset">The dataset that the table is to be copied to</param>
+            <param name="passedTableName">The name of the table to be copied to the external dataset</param>
+            <param name="filter">The filter that is to be applied to the data</param>
+            <param name="passedSort">Any sort that is to be applied to the data</param>
+        </member>
+        <member name="P:New_Wrapper.MultiTableHandler.selectQueries">
+            <summary>
+            An multi-dimensional array of the queries that will be used to retrieve data from the data source
+            </summary>
+            <remarks>The table name should be the first 'sub element' followed by the appropriate SQL query as
+            the second 'sub element'
+            For instance, selectQueries[0,0] = "tblMain" selectQueries[0,1] = "SELECT...."</remarks>
+        </member>
+        <member name="P:New_Wrapper.MultiTableHandler.providerString">
+            <summary>
+            The string for connecting to the data source
+            </summary>
+        </member>
+        <member name="P:New_Wrapper.MultiTableHandler.sourceData">
+            <summary>
+            A dataset containing the data tables
+            </summary>
+        </member>
+    </members>
+</doc>

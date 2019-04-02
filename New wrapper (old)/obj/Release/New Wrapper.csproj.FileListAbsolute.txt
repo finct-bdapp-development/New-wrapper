@@ -1,0 +1,5 @@
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Release\New Wrapper.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Release\New Wrapper.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Release\ResolveAssemblyReference.cache
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.pdb

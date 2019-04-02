@@ -1,0 +1,19 @@
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\bin\Debug\New Wrapper.dll
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\bin\Debug\New Wrapper.pdb
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\obj\Debug\ResolveAssemblyReference.cache
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\obj\Debug\New Wrapper.dll
+C:\Application developments\CHAPS rewrite\CHAPS UI\New Wrapper\obj\Debug\New Wrapper.pdb
+C:\Application developments\New wrapper\bin\Debug\New Wrapper.dll
+C:\Application developments\New wrapper\bin\Debug\New Wrapper.pdb
+C:\Application developments\New wrapper\obj\Debug\ResolveAssemblyReference.cache
+C:\Application developments\New wrapper\obj\Debug\New Wrapper.dll
+C:\Application developments\New wrapper\obj\Debug\New Wrapper.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\New Wrapper.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\New Wrapper.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBEncryptString.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBEncryptString.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\ResolveAssemblyReference.cache
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.dll
+C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.pdb
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBEncryptString.xml
+C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\New Wrapper.XML
