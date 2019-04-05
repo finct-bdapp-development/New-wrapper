@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.OleDb;
-using EncryptString;
 using System.Data.SqlClient;
 namespace New_Wrapper
 {
@@ -31,37 +30,30 @@ namespace New_Wrapper
 
         #endregion
 
-        #region SQL stored procedures
-        
+        #region Genric Excel
+
         /// <summary>
-        /// Action a stored procedure with associated parameters
+        /// Returns the data in an Excel sheet as a data table
         /// </summary>
-        /// <param name="parameters">A list of the parameters to apply</param>
-        /// <param name="connectionString">the connection string for the SQL data source</param>
-        /// <param name="storedProcedureName">The name of the stored procedure</param>
-        //BOB TODO
-        /*public void RunStoredProcedureUpdate(ref DataTable dt,string connectionString, string storedProcedureName)
+        /// <param name="pathToExcelFile">The path to the file to be converted</param>
+        /// <param name="sheetName">The name of the sheet where the data is held</param>
+        /// <param name="includesHeaderRow">Whether the data has a header row showing the column names</param>
+        /// <returns></returns>
+        /// <remarks>The method uses the ACE provider and should work for all Excel files</remarks>
+        public DataTable ReturnExcelSheetAsDataTable(string pathToExcelFile, string sheetName, Boolean includesHeaderRow)
         {
-            SqlConnection pvConnection;
-            pvConnection = new SqlConnection(connectionString);
-            SqlCommand scomm = new SqlCommand(storedProcedureName,pvConnection);
-            scomm.CommandType = CommandType.StoredProcedure;
-            
-            pvConnection.Open();
+            string header = "No";
+            if (includesHeaderRow == true) header = "Yes";
+            string connection = "Provider=Microsoft.JET.OLEDB.4.0;Data Source =" + pathToExcelFile + ";Extended Properties = \"Excel 8.0;HDR =" + header + ";IMEX=1\"";
+            string query = "SELECT * FROM [" + sheetName + "$]";
+            New_Wrapper.DataHandler myHandler = new New_Wrapper.DataHandler(connection, query);
+            return myHandler.CreateDataset().Tables[0];
+        }
 
-            foreach (DataRow dr in dt.Rows)
-            {
-                scomm.Parameters.Clear();
+        #endregion
 
-                foreach (DataColumn dc in dt.Columns)
-                {
-                    scomm.Parameters.AddWithValue("@" +dc.ColumnName.ToString(), dr[dc.ColumnName].ToString());
-                }
-                scomm.ExecuteNonQuery();
-            }
+        #region SQL stored procedures
 
-            pvConnection.Close();
-        }*/
         /// <summary>
         /// Action a stored procedure with associated parameters
         /// </summary>
@@ -70,289 +62,39 @@ namespace New_Wrapper
         /// <param name="storedProcedureName">The name of the stored procedure</param>
         public void RunStoredProcedure(ref List<SqlParameter> parameters, string connectionString, string storedProcedureName)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Action");
-            dt.Columns.Add("Time");
-            dt.TableName = "Stats";
-           
             SqlConnection pvConnection;
             try
             {
-                DataRow dr = dt.NewRow();
-                dr["Action"] = "Before open";
-                dr["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-                dt.Rows.Add(dr);
                 pvConnection = new SqlConnection(connectionString);
-                DataRow dr1 = dt.NewRow();
-                dr1["Action"] = "After open";
-                dr1["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-                dt.Rows.Add(dr1);
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
             //SqlCommand pvCommand = new SqlCommand(storedProcedureName, pvConnection);
             //SqlCommand 
-            DataRow dr2 = dt.NewRow();
-            dr2["Action"] = "Before command";
-            dr2["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr2);
-            ActionedCommand = new SqlCommand(storedProcedureName, pvConnection);
-            DataRow dr3 = dt.NewRow();
-            dr3["Action"] = "After command";
-            dr3["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr3);
-
-            ActionedCommand.CommandType = CommandType.StoredProcedure;
-            ActionedCommand.CommandTimeout = 120;
-            DataRow dr4 = dt.NewRow();
-            dr4["Action"] = "Before params";
-            dr4["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr4);
-            ActionedCommand.Parameters.Clear();
-            foreach (SqlParameter item in parameters)
-            {
-                ActionedCommand.Parameters.Add(item);
-            }
-            DataRow dr5 = dt.NewRow();
-            dr5["Action"] = "After params";
-            dr5["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr5);
-            DataRow dr6 = dt.NewRow();
-            dr6["Action"] = "Opening conn";
-            dr6["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr6);
-            pvConnection.Open();
-            DataRow dr7 = dt.NewRow();
-            dr7["Action"] = "After Opening conn";
-            dr7["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr7);
-            DataRow dr8 = dt.NewRow();
-            dr8["Action"] = "Executing";
-            dr8["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr8);
-            ActionedCommand.ExecuteNonQuery();
-            DataRow dr9 = dt.NewRow();
-            dr9["Action"] = "After execute";
-            dr9["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr9);
-            //return ActionedCommand;
-            //dt.WriteXml(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Stats\" + storedProcedureName +
-            //    " " + DateTime.Now.ToString("hh-mm-ss fff") + ".xml");
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <param name="connectionString"></param>
-        /// <param name="storedProcedureName"></param>
-        /// <param name="timeout"></param>
-        public void RunStoredProcedure(ref List<SqlParameter> parameters, string connectionString, string storedProcedureName,Int32 timeout)
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Action");
-            dt.Columns.Add("Time");
-            dt.TableName = "Stats";
-
-            SqlConnection pvConnection;
             try
             {
-                DataRow dr = dt.NewRow();
-                dr["Action"] = "Before open";
-                dr["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-                dt.Rows.Add(dr);
-                pvConnection = new SqlConnection(connectionString);
-                DataRow dr1 = dt.NewRow();
-                dr1["Action"] = "After open";
-                dr1["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-                dt.Rows.Add(dr1);
+                ActionedCommand = new SqlCommand(storedProcedureName, pvConnection);
+
+                ActionedCommand.CommandType = CommandType.StoredProcedure;
+
+                ActionedCommand.Parameters.Clear();
+                foreach (SqlParameter item in parameters)
+                {
+                    ActionedCommand.Parameters.Add(item);
+                }
+
+                pvConnection.Open();
+                ActionedCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
-            //SqlCommand pvCommand = new SqlCommand(storedProcedureName, pvConnection);
-            //SqlCommand 
-            DataRow dr2 = dt.NewRow();
-            dr2["Action"] = "Before command";
-            dr2["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr2);
-            ActionedCommand = new SqlCommand(storedProcedureName, pvConnection);
-            DataRow dr3 = dt.NewRow();
-            dr3["Action"] = "After command";
-            dr3["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr3);
-
-            ActionedCommand.CommandType = CommandType.StoredProcedure;
-            ActionedCommand.CommandTimeout = timeout;
-            DataRow dr4 = dt.NewRow();
-            dr4["Action"] = "Before params";
-            dr4["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr4);
-            ActionedCommand.Parameters.Clear();
-            foreach (SqlParameter item in parameters)
-            {
-                ActionedCommand.Parameters.Add(item);
-            }
-            DataRow dr5 = dt.NewRow();
-            dr5["Action"] = "After params";
-            dr5["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr5);
-            DataRow dr6 = dt.NewRow();
-            dr6["Action"] = "Opening conn";
-            dr6["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr6);
-            pvConnection.Open();
-            DataRow dr7 = dt.NewRow();
-            dr7["Action"] = "After Opening conn";
-            dr7["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr7);
-            DataRow dr8 = dt.NewRow();
-            dr8["Action"] = "Executing";
-            dr8["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr8);
-            ActionedCommand.ExecuteNonQuery();
-            DataRow dr9 = dt.NewRow();
-            dr9["Action"] = "After execute";
-            dr9["Time"] = DateTime.Now.ToString("hh-mm-ss fff");
-            dt.Rows.Add(dr9);
             //return ActionedCommand;
-            //dt.WriteXml(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Stats\" + storedProcedureName +
-            //    " " + DateTime.Now.ToString("hh-mm-ss fff") + ".xml");
         }
-        /// <summary>
-        /// Bob 29/11/18 Converts sql type string to type
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public Type SqlTypeToType(string type)
-        {
-            string[] tokens = type.Split(new char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-            string typeFamily = tokens[0].ToLowerInvariant();
-            string size = tokens.Length > 1 ? tokens[1] : string.Empty;
 
-            switch (typeFamily)
-            {
-                case "bigint":
-                    return typeof(long);
-                case "binary":
-                    return size == "1" ? typeof(byte) : typeof(byte[]);
-                case "bit":
-                    return typeof(bool);
-                case "char":
-                    return size == "1" ? typeof(char) : typeof(string);
-                case "datetime":
-                    return typeof(DateTime);
-                case "datetime2":
-                    return typeof(DateTime);
-                case "decimal":
-                    return typeof(decimal);
-                case "float":
-                    return typeof(double);
-                case "image":
-                    return typeof(byte[]);
-                case "int":
-                    return typeof(int);
-                case "money":
-                    return typeof(decimal);
-                case "nchar":
-                    return size == "1" ? typeof(char) : typeof(string);
-                case "ntext":
-                    return typeof(string);
-                case "nvarchar":
-                    return typeof(string);
-                case "real":
-                    return typeof(float);
-                case "uniqueidentifier":
-                    return typeof(Guid);
-                case "smalldatetime":
-                    return typeof(DateTime);
-                case "smallint":
-                    return typeof(short);
-                case "smallmoney":
-                    return typeof(decimal);
-                case "sql_variant":
-                    return typeof(object);
-                case "text":
-                    return typeof(string);
-                case "time":
-                    return typeof(TimeSpan);
-                case "tinyint":
-                    return typeof(byte);
-                case "varbinary":
-                    return typeof(byte[]);
-                case "varchar":
-                    return typeof(string);
-                case "variant":
-                    return typeof(string);
-                case "xml":
-                    return typeof(string);
-                default:
-                    throw new ArgumentException(string.Format("There is no .Net type specified for mapping T-SQL type '{0}'.", type));
-            }
-        }
-        /// <summary>
-        /// Bob 29/11/18 Converts system type to SQLDBType
-        /// </summary>
-        /// <param name="theType"></param>
-        /// <returns></returns>
-        public SqlDbType GetSQLDBType(System.Type theType)
-        {
-            System.Data.SqlClient.SqlParameter p1;
-            System.ComponentModel.TypeConverter tc;
-            p1 = new System.Data.SqlClient.SqlParameter();
-            tc = System.ComponentModel.TypeDescriptor.GetConverter(p1.DbType);
-            if (tc.CanConvertFrom(theType))
-                p1.DbType = (DbType)tc.ConvertFrom(theType.Name);
-            else
-                // Try brute force
-                try
-                {
-                    p1.DbType = (DbType)tc.ConvertFrom(theType.Name);
-                }
-                catch (Exception ex)
-                {
-                }
-            return p1.SqlDbType;
-        }
-        /// <summary>
-        /// Bob 29/11/18 Runs a stored procedure using table as paramater source
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <param name="connectionString"></param>
-        /// <param name="storedProcedureName"></param>
-        /// <param name="timeout"></param>
-        public void RunStoredProcedureDT(ref DataTable dt, 
-            ref List<SqlParameter> parameters, 
-            string connectionString, string storedProcedureName, Int32 timeout)
-        {
-            SqlConnection conn = new SqlConnection(connectionString);
-            conn.Open();
-
-            foreach (DataRow dr in dt.Rows)
-            { 
-                SqlCommand cmd = new SqlCommand(storedProcedureName, conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Clear();
-                int id = 0;
-                foreach(SqlParameter sp in parameters)
-                {
-                    SqlParameter myParam = new SqlParameter(sp.ParameterName, sp.SqlDbType);
-                    myParam.Value = dr[id];
-
-                    cmd.Parameters.Add(myParam);
-                    id++;
-                }
-
-                cmd.ExecuteNonQuery();
-            }
-            conn.Close();
-
-           
-            
-        }
-      
         /// <summary>
         /// Action a stored procedure that does not require any parameters
         /// </summary>
@@ -365,7 +107,7 @@ namespace New_Wrapper
             {
                 pvConnection = new SqlConnection(connectionString);
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -378,31 +120,7 @@ namespace New_Wrapper
             pvConnection.Open();
             ActionedCommand.ExecuteNonQuery();
         }
-        /// <summary>
-        /// Action a stored procedure that does not require any parameters
-        /// </summary>
-        /// <param name="connectionString">The connection string for the SQL data source</param>
-        /// <param name="storedProcedureName">The name of the stored procedure</param>
-        public void RunStoredProcedure(string connectionString, string storedProcedureName,Int32 timeout)
-        {
-            SqlConnection pvConnection;
-            try
-            {
-                pvConnection = new SqlConnection(connectionString);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            //SqlCommand pvCommand = new SqlCommand(storedProcedureName, pvConnection);
-            //SqlCommand 
-            ActionedCommand = new SqlCommand(storedProcedureName, pvConnection);
 
-            ActionedCommand.CommandType = CommandType.StoredProcedure;
-            ActionedCommand.CommandTimeout = timeout;
-            pvConnection.Open();
-            ActionedCommand.ExecuteNonQuery();
-        }
         /// <summary>
         /// Confirm whether the currently logged in user has the specified role
         /// </summary>
@@ -456,12 +174,12 @@ namespace New_Wrapper
         {
             RunStoredProcedure(provider, procedureName);
             DataTable tempData = new DataTable();
-            tempData.Load(ActionedCommand.ExecuteReader());
+            tempData.Load(ActionedCommand.ExecuteReader(CommandBehavior.CloseConnection));
             return tempData;
         }
 
         /// <summary>
-        /// Returns a data table based on running a stored proceudre that has a single result set
+        /// Returns a data table based on running a stored procedure that has a single result set
         /// </summary>
         /// <param name="provider">The connection string for the data source</param>
         /// <param name="parameters">The parameters required by the stored procedure</param>
@@ -471,7 +189,7 @@ namespace New_Wrapper
         {
             RunStoredProcedure(ref parameters, provider, procedureName);
             DataTable tempData = new DataTable();
-            tempData.Load(ActionedCommand.ExecuteReader());
+            tempData.Load(ActionedCommand.ExecuteReader(CommandBehavior.CloseConnection));
             return tempData;
         }
 
@@ -1374,19 +1092,19 @@ namespace New_Wrapper
         /// }
         /// </code>
         /// </example>
-        public DataHandler(string connectionString, string password, string queryString)
-        {
-            // ### Decrypt the encrypted password... ###
-            string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
+        //public DataHandler(string connectionString, string password, string queryString)
+        //{
+        //    // ### Decrypt the encrypted password... ###
+        //    string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
 
-            // ### ...and build up the full connection string ###
-            connectionString = connectionString + decryptedPassword + ";";
+        //    // ### ...and build up the full connection string ###
+        //    connectionString = connectionString + decryptedPassword + ";";
 
-            // ### As a password is involved, the data source must be Access ###
-            dataType = "Access";
+        //    // ### As a password is involved, the data source must be Access ###
+        //    dataType = "Access";
 
-            CreateAdapter(connectionString, queryString, ref m_localAdapter);
-        }
+        //    CreateAdapter(connectionString, queryString, ref m_localAdapter);
+        //}
 
         /// <summary>
         /// Creates a data adapter to handle communication between the class and the data source
@@ -1533,28 +1251,28 @@ namespace New_Wrapper
         /// <param name="provider">The provider string for connecting to the data source</param>
         /// <param name="password">The encrypted database password</param>
         /// <param name="getDataQuery">The query to be used when creating the DataSet based on the data source</param>
-        public DataSet GetDataSet(string provider, string password, string getDataQuery)
-        {
-            // ### Decrypt the encrypted password... ###
-            string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
+        //public DataSet GetDataSet(string provider, string password, string getDataQuery)
+        //{
+        //    // ### Decrypt the encrypted password... ###
+        //    string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
 
-            // ### ...and build up the full connection string ###
-            provider = provider + decryptedPassword + ";";
+        //    // ### ...and build up the full connection string ###
+        //    provider = provider + decryptedPassword + ";";
 
-            try
-            {
-                DataSet getData = new DataSet();
-                OleDbConnection newConnection = new OleDbConnection(provider);
-                newConnection.Open();
-                OleDbDataAdapter newAdapter = new OleDbDataAdapter(getDataQuery, newConnection);
-                newAdapter.Fill(getData, "Temp");
-                return getData;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("The DataSet could not be created for the following reason - " + ex.Message);
-            }
-        }
+        //    try
+        //    {
+        //        DataSet getData = new DataSet();
+        //        OleDbConnection newConnection = new OleDbConnection(provider);
+        //        newConnection.Open();
+        //        OleDbDataAdapter newAdapter = new OleDbDataAdapter(getDataQuery, newConnection);
+        //        newAdapter.Fill(getData, "Temp");
+        //        return getData;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("The DataSet could not be created for the following reason - " + ex.Message);
+        //    }
+        //}
 
         /// <summary>
         /// Inserts data directly into the data source
@@ -1608,27 +1326,27 @@ namespace New_Wrapper
         /// <param name="provider">The provider string for connecting to the data source</param>
         /// <param name="password">The encrypted database password</param>
         /// <param name="insertQuery">The insert query to be used when updating the data source</param>
-        public void InsertData(string provider, string password, string insertQuery)
-        {
-            // ### Decrypt the encrypted password... ###
-            string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
+        //public void InsertData(string provider, string password, string insertQuery)
+        //{
+        //    // ### Decrypt the encrypted password... ###
+        //    string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
 
-            // ### ...and build up the full connection string ###
-            provider = provider + decryptedPassword + ";";
+        //    // ### ...and build up the full connection string ###
+        //    provider = provider + decryptedPassword + ";";
 
-            try
-            {
-                OleDbDataAdapter newAdapter = new OleDbDataAdapter();
-                OleDbConnection newConnection = new OleDbConnection(provider);
-                newConnection.Open();
-                newAdapter.InsertCommand = new OleDbCommand(insertQuery, newConnection);
-                newAdapter.InsertCommand.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("The data could not be inserted for the following reason - " + ex.Message);
-            }
-        }
+        //    try
+        //    {
+        //        OleDbDataAdapter newAdapter = new OleDbDataAdapter();
+        //        OleDbConnection newConnection = new OleDbConnection(provider);
+        //        newConnection.Open();
+        //        newAdapter.InsertCommand = new OleDbCommand(insertQuery, newConnection);
+        //        newAdapter.InsertCommand.ExecuteNonQuery();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("The data could not be inserted for the following reason - " + ex.Message);
+        //    }
+        //}
 
         /// <summary>
         /// Deletes data directly from the data source
@@ -1682,27 +1400,27 @@ namespace New_Wrapper
         /// <param name="provider">The provider string for connecting to the data source</param>
         /// <param name="password">The encrypted database password</param>
         /// <param name="deleteQuery">The delete query to be used when updating the data source</param>
-        public void DeleteData(string provider, string password, string deleteQuery)
-        {
-            // ### Decrypt the encrypted password... ###
-            string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
+        //public void DeleteData(string provider, string password, string deleteQuery)
+        //{
+        //    // ### Decrypt the encrypted password... ###
+        //    string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
 
-            // ### ...and build up the full connection string ###
-            provider = provider + decryptedPassword + ";";
+        //    // ### ...and build up the full connection string ###
+        //    provider = provider + decryptedPassword + ";";
 
-            try
-            {
-                OleDbDataAdapter newAdapter = new OleDbDataAdapter();
-                OleDbConnection newConnection = new OleDbConnection(provider);
-                newConnection.Open();
-                newAdapter.DeleteCommand = new OleDbCommand(deleteQuery, newConnection);
-                newAdapter.DeleteCommand.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("The data could not be deleted for the following reason - " + ex.Message);
-            }
-        }
+        //    try
+        //    {
+        //        OleDbDataAdapter newAdapter = new OleDbDataAdapter();
+        //        OleDbConnection newConnection = new OleDbConnection(provider);
+        //        newConnection.Open();
+        //        newAdapter.DeleteCommand = new OleDbCommand(deleteQuery, newConnection);
+        //        newAdapter.DeleteCommand.ExecuteNonQuery();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("The data could not be deleted for the following reason - " + ex.Message);
+        //    }
+        //}
 
         /// <summary>
         /// Updates data directly from the data source
@@ -1759,28 +1477,28 @@ namespace New_Wrapper
         /// <param name="provider">The provider string for connecting to the data source</param>
         /// <param name="password">The encrypted database password</param>
         /// <param name="updateQuery">The query for updating the data source</param>
-        public void UpdateData(string provider, string password, string updateQuery)
-        {
-            // ### Decrypt the encrypted password... ###
-            string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
+        //public void UpdateData(string provider, string password, string updateQuery)
+        //{
+        //    // ### Decrypt the encrypted password... ###
+        //    string decryptedPassword = StringCipher.Decrypt(password, "SkimmedMilk");
 
-            // ### ...and build up the full connection string ###
-            provider = provider + decryptedPassword + ";";
+        //    // ### ...and build up the full connection string ###
+        //    provider = provider + decryptedPassword + ";";
             
-            try
-            {
-                OleDbDataAdapter newAdapter = new OleDbDataAdapter();
-                OleDbConnection newConnection = new OleDbConnection(provider);
-                newConnection.Open();
-                newAdapter.UpdateCommand = new OleDbCommand(updateQuery, newConnection);
-                newAdapter.UpdateCommand.ExecuteNonQuery();
-                newConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("The data could not be updated for the following reason - " + ex.Message);
-            }
-        }
+        //    try
+        //    {
+        //        OleDbDataAdapter newAdapter = new OleDbDataAdapter();
+        //        OleDbConnection newConnection = new OleDbConnection(provider);
+        //        newConnection.Open();
+        //        newAdapter.UpdateCommand = new OleDbCommand(updateQuery, newConnection);
+        //        newAdapter.UpdateCommand.ExecuteNonQuery();
+        //        newConnection.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("The data could not be updated for the following reason - " + ex.Message);
+        //    }
+        //}
 
         /// <summary>
         /// 
@@ -1932,20 +1650,20 @@ namespace New_Wrapper
         /// <param name="password">The password for the database</param>
         /// <param name="encrypted">Whether the password is encrypted</param>
         /// <returns>A data table containing the tables schema for the specified database</returns>
-        public DataTable RetrieveListOfTablesInAccessDatabase(string filePath, string password, Boolean encrypted)
-        {
-            if (encrypted == true)
-            {
-                password = EncryptString.StringCipher.Decrypt(password, "SkimmedMilk");
-            }
-            string provider = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + filePath + "';Jet OLEDB:Database Password=" + password;
+        //public DataTable RetrieveListOfTablesInAccessDatabase(string filePath, string password, Boolean encrypted)
+        //{
+        //    if (encrypted == true)
+        //    {
+        //        password = EncryptString.StringCipher.Decrypt(password, "SkimmedMilk");
+        //    }
+        //    string provider = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + filePath + "';Jet OLEDB:Database Password=" + password;
 
-            System.Data.OleDb.OleDbConnection connection = new System.Data.OleDb.OleDbConnection(provider);
-            connection.Open();
-            string[] restrictions = new string[4];
-            restrictions[3] = "TABLE";
-            return connection.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, restrictions);
-        }
+        //    System.Data.OleDb.OleDbConnection connection = new System.Data.OleDb.OleDbConnection(provider);
+        //    connection.Open();
+        //    string[] restrictions = new string[4];
+        //    restrictions[3] = "TABLE";
+        //    return connection.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, restrictions);
+        //}
 
         /// <summary>
         /// Retrieve a list of the columns in a specified Access table
@@ -1955,20 +1673,20 @@ namespace New_Wrapper
         /// <param name="encrypted">Whether the password is encrypted</param>
         /// <param name="tableName">The name of the Access data table</param>
         /// <returns>A data table containing the columns schema for the specified table</returns>
-        public DataTable RetrieveColumnSchemaForAccessTable(string filePath, string password, Boolean encrypted, string tableName)
-        {
-            if (encrypted == true)
-            {
-                password = EncryptString.StringCipher.Decrypt(password, "SkimmedMilk");
-            }
-            string provider = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + filePath + "';Jet OLEDB:Database Password=" + password;
-            System.Data.OleDb.OleDbConnection connection = new System.Data.OleDb.OleDbConnection(provider);
-            connection.Open();
-            string[] restrictions = new string[4];
-            restrictions[2] = tableName;
-            DataTable myTable = connection.GetSchema("Columns", restrictions);
-            return myTable;
-        }
+        //public DataTable RetrieveColumnSchemaForAccessTable(string filePath, string password, Boolean encrypted, string tableName)
+        //{
+        //    if (encrypted == true)
+        //    {
+        //        password = EncryptString.StringCipher.Decrypt(password, "SkimmedMilk");
+        //    }
+        //    string provider = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + filePath + "';Jet OLEDB:Database Password=" + password;
+        //    System.Data.OleDb.OleDbConnection connection = new System.Data.OleDb.OleDbConnection(provider);
+        //    connection.Open();
+        //    string[] restrictions = new string[4];
+        //    restrictions[2] = tableName;
+        //    DataTable myTable = connection.GetSchema("Columns", restrictions);
+        //    return myTable;
+        //}
 
         #endregion
 
@@ -2072,21 +1790,21 @@ namespace New_Wrapper
         /// <remarks>The table name should be the first 'sub element' followed by the appropriate SQL query as
         /// the second 'sub element'
         /// For instance, selectQueries[0,0] = "tblMain" selectQueries[0,1] = "SELECT...."</remarks>
-        public MultiTableHandler(string[,] passedQueries, string passedProvider, string passedPassword)
-        {
-            // ### Decrypt the encrypted password... ###
-            string decryptedPassword = StringCipher.Decrypt(passedPassword, "SkimmedMilk");
+        //public MultiTableHandler(string[,] passedQueries, string passedProvider, string passedPassword)
+        //{
+        //    // ### Decrypt the encrypted password... ###
+        //    string decryptedPassword = StringCipher.Decrypt(passedPassword, "SkimmedMilk");
 
-            // ### ...and build up the full connection string ###
-            passedProvider = passedProvider + decryptedPassword + ";";
+        //    // ### ...and build up the full connection string ###
+        //    passedProvider = passedProvider + decryptedPassword + ";";
 
-            // ### Password has been passed so the data type must be Access
-            dataType = "Access";
+        //    // ### Password has been passed so the data type must be Access
+        //    dataType = "Access";
 
-            selectQueries = passedQueries;
-            providerString = passedProvider;
-            connectToData();
-        }
+        //    selectQueries = passedQueries;
+        //    providerString = passedProvider;
+        //    connectToData();
+        //}
 
         #endregion
 
@@ -2120,17 +1838,17 @@ namespace New_Wrapper
         /// <param name="passedQueries">The table names and SQL queries that the data tables will be based on</param>
         /// <param name="passedProvider">The provider string for connecting to the data source</param>
         /// <param name="passedPassword">The database's encrypted password</param>
-        public void connectToData(string[,] passedQueries, string passedProvider, string passedPassword)
-        {
-            // ### Password has been passed so the data type must be Access
-            dataType = "Access";
+        //public void connectToData(string[,] passedQueries, string passedProvider, string passedPassword)
+        //{
+        //    // ### Password has been passed so the data type must be Access
+        //    dataType = "Access";
 
-            // ### Decrypt the encrypted password... ###
-            string decryptedPassword = StringCipher.Decrypt(passedPassword, "SkimmedMilk");
-            selectQueries = passedQueries;
-            providerString = passedProvider + decryptedPassword + ";";
-            connectToData();
-        }
+        //    // ### Decrypt the encrypted password... ###
+        //    string decryptedPassword = StringCipher.Decrypt(passedPassword, "SkimmedMilk");
+        //    selectQueries = passedQueries;
+        //    providerString = passedProvider + decryptedPassword + ";";
+        //    connectToData();
+        //}
 
         /// <summary>
         /// Connects to the data source and populates a data set with the requested tables

@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "New Wrapper", "New Wrapper.csproj", "{EC4EC433-4973-4159-967D-43EA75DF73E5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMBEncryptString", "..\..\..\DMBDeveloperShare\CommonComponents\EncryptionStringClass\DMBEncryptString\DMBEncryptString.csproj", "{AFC5C62F-1795-48EE-A3B4-DD1A06DCFF1E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceAutomation", "..\ExceAutomation\ExceAutomation.csproj", "{2AB99602-0ED8-46B9-8BB1-C1F3EC05984A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +15,11 @@ Global
 		{EC4EC433-4973-4159-967D-43EA75DF73E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC4EC433-4973-4159-967D-43EA75DF73E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC4EC433-4973-4159-967D-43EA75DF73E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFC5C62F-1795-48EE-A3B4-DD1A06DCFF1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFC5C62F-1795-48EE-A3B4-DD1A06DCFF1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFC5C62F-1795-48EE-A3B4-DD1A06DCFF1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFC5C62F-1795-48EE-A3B4-DD1A06DCFF1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AB99602-0ED8-46B9-8BB1-C1F3EC05984A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AB99602-0ED8-46B9-8BB1-C1F3EC05984A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AB99602-0ED8-46B9-8BB1-C1F3EC05984A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AB99602-0ED8-46B9-8BB1-C1F3EC05984A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B663D1D0-55C1-4EBE-97C6-99A396647B2D}
 	EndGlobalSection
 EndGlobal

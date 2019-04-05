@@ -26,3 +26,10 @@ C:\DMBDeveloperShare\CommonComponents\New wrapper\bin\Debug\DMBEncryptString.pdb
 C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.csprojResolveAssemblyReference.cache
 C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.dll
 C:\DMBDeveloperShare\CommonComponents\New wrapper\obj\Debug\New Wrapper.pdb
+C:\Users\Scott\BDApp\New-wrapper\obj\Debug\New Wrapper.csprojAssemblyReference.cache
+C:\Users\Scott\BDApp\New-wrapper\obj\Debug\New Wrapper.csproj.CoreCompileInputs.cache
+C:\Users\Scott\BDApp\New-wrapper\obj\Debug\New Wrapper.dll
+C:\Users\Scott\BDApp\New-wrapper\obj\Debug\New Wrapper.pdb
+C:\Users\Scott\BDApp\New-wrapper\bin\Debug\New Wrapper.XML
+C:\Users\Scott\BDApp\New-wrapper\bin\Debug\New Wrapper.dll
+C:\Users\Scott\BDApp\New-wrapper\bin\Debug\New Wrapper.pdb

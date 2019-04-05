@@ -6,7 +6,7 @@
     <members>
         <member name="T:New_Wrapper.DataHandler">
             <summary>
-            Handles the connecting to and updating of data using OLE
+            John Handles the connecting to and updating of data using OLE
             </summary>
             //<remarks>The default instance of the data handler only connects and updates a single table. For datasets containing
             multiple updateable tables use the MultiHandler</remarks>
@@ -16,6 +16,16 @@
             An SQL command onbject containing the result of a data connection
             </summary>
         </member>
+        <member name="M:New_Wrapper.DataHandler.ReturnExcelSheetAsDataTable(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns the data in an Excel sheet as a data table
+            </summary>
+            <param name="pathToExcelFile">The path to the file to be converted</param>
+            <param name="sheetName">The name of the sheet where the data is held</param>
+            <param name="includesHeaderRow">Whether the data has a header row showing the column names</param>
+            <returns></returns>
+            <remarks>The method uses the ACE provider and should work for all Excel files</remarks>
+        </member>
         <member name="M:New_Wrapper.DataHandler.RunStoredProcedure(System.Collections.Generic.List{System.Data.SqlClient.SqlParameter}@,System.String,System.String)">
             <summary>
             Action a stored procedure with associated parameters
@@ -24,46 +34,7 @@
             <param name="connectionString">the connection string for the SQL data source</param>
             <param name="storedProcedureName">The name of the stored procedure</param>
         </member>
-        <member name="M:New_Wrapper.DataHandler.RunStoredProcedure(System.Collections.Generic.List{System.Data.SqlClient.SqlParameter}@,System.String,System.String,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="parameters"></param>
-            <param name="connectionString"></param>
-            <param name="storedProcedureName"></param>
-            <param name="timeout"></param>
-        </member>
-        <member name="M:New_Wrapper.DataHandler.SqlTypeToType(System.String)">
-            <summary>
-            Bob 29/11/18 Converts sql type string to type
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:New_Wrapper.DataHandler.GetSQLDBType(System.Type)">
-            <summary>
-            Bob 29/11/18 Converts system type to SQLDBType
-            </summary>
-            <param name="theType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:New_Wrapper.DataHandler.RunStoredProcedureDT(System.Data.DataTable@,System.Collections.Generic.List{System.Data.SqlClient.SqlParameter}@,System.String,System.String,System.Int32)">
-            <summary>
-            Bob 29/11/18 Runs a stored procedure using table as paramater source
-            </summary>
-            <param name="parameters"></param>
-            <param name="connectionString"></param>
-            <param name="storedProcedureName"></param>
-            <param name="timeout"></param>
-        </member>
         <member name="M:New_Wrapper.DataHandler.RunStoredProcedure(System.String,System.String)">
-            <summary>
-            Action a stored procedure that does not require any parameters
-            </summary>
-            <param name="connectionString">The connection string for the SQL data source</param>
-            <param name="storedProcedureName">The name of the stored procedure</param>
-        </member>
-        <member name="M:New_Wrapper.DataHandler.RunStoredProcedure(System.String,System.String,System.Int32)">
             <summary>
             Action a stored procedure that does not require any parameters
             </summary>
@@ -97,7 +68,7 @@
         </member>
         <member name="M:New_Wrapper.DataHandler.RunStoredProcedureAndReturnSingleTable(System.String,System.Collections.Generic.List{System.Data.SqlClient.SqlParameter}@,System.String)">
             <summary>
-            Returns a data table based on running a stored proceudre that has a single result set
+            Returns a data table based on running a stored procedure that has a single result set
             </summary>
             <param name="provider">The connection string for the data source</param>
             <param name="parameters">The parameters required by the stored procedure</param>
@@ -174,6 +145,19 @@
             <param name="destinationProvider">The connection string for the datasource that the data will be uploaded to</param>
             <param name="destinationTable">The name of the table that data will be uploaded to</param>
             <remarks>The passed data must only contain the fields which are to be uploaded to the datasource</remarks>
+        </member>
+        <member name="M:New_Wrapper.DataHandler.InsertBulkDataBatch(System.String,System.Data.DataTable[],System.String[],System.Boolean[],System.Collections.Generic.List{System.String[]},System.Collections.Generic.List{System.String[]},System.Int32[],System.Int32)">
+            <summary>
+             Send multiple parameter lists for batch bulk copy
+            </summary>
+            <param name="passedDataTableList">List of all tables</param>
+            <param name="passedDestinationProvider">Provider</param>
+            <param name="passedDestinationTableNameList">List of destination tables</param>
+            <param name="headerRowInSourceProviderList">List of header row exists</param>
+            <param name="passedSourceFieldNamesList">List of array of passed field names</param>
+            <param name="passedDestinationFieldNamesList">List of array of destination field names</param>
+            <param name="passedBulkCopyTimeout">Bulk copy timeout</param>
+            <param name="passedBatchSizeList">List of batch sizes</param>
         </member>
         <member name="M:New_Wrapper.DataHandler.InsertBulkDataViaCSV(System.String,System.String,System.String,System.String,System.Boolean)">
             <summary>
@@ -323,26 +307,6 @@
              </code>
             </example>
         </member>
-        <member name="M:New_Wrapper.DataHandler.#ctor(System.String,System.String,System.String)">
-            <summary>
-            Connects to a database with an encrypted password
-            </summary>
-            <param name="connectionString">The base connection string without the password</param>
-            <param name="password">The encrypted password</param>
-            <param name="queryString">The query to be applied when creating the connection</param>
-            <remarks>This allows you to pass an encrypted password to be used when connecting to the data source. The password is
-            decrypted by the DMB development teams encryption class</remarks>
-            <example>This example shows how to connect to a password protected database
-            <code>
-            public void ConnectToResultsData()
-            {
-               string provider = Provider=Microsoft.Jet.OLEDB.4.0;Data Source="C:\SomeFolder\MyProject\Data.mdb";Jet OLEDB:Database Password=";
-               string password = "thisisencrypted";
-               ResultsHandler = new New_Wrapper.DataHandler(provider, password, "SELECT Results.CaseId, Results.Result FROM Results");
-            }
-            </code>
-            </example>
-        </member>
         <member name="M:New_Wrapper.DataHandler.CreateAdapter(System.String,System.String,System.Data.OleDb.OleDbDataAdapter@)">
             <summary>
             Creates a data adapter to handle communication between the class and the data source
@@ -393,16 +357,6 @@
             <param name="provider">The provider string for connecting to the data source</param>
             <param name="getDataQuery">The query to be used when creating the DataSet based on the data source</param>
         </member>
-        <member name="M:New_Wrapper.DataHandler.GetDataSet(System.String,System.String,System.String)">
-            <summary>
-            Creates a DataSet based on a SQL string
-            This method creates a separate data adapter to process the data request - it does not affect any
-            persistent connection made when creating the class
-            </summary>
-            <param name="provider">The provider string for connecting to the data source</param>
-            <param name="password">The encrypted database password</param>
-            <param name="getDataQuery">The query to be used when creating the DataSet based on the data source</param>
-        </member>
         <member name="M:New_Wrapper.DataHandler.InsertData(System.String,System.String)">
             <summary>
             Inserts data directly into the data source
@@ -410,16 +364,6 @@
             persistent connection made when creating the class
             </summary>
             <param name="provider">The provider string for connecting to the data source</param>
-            <param name="insertQuery">The insert query to be used when updating the data source</param>
-        </member>
-        <member name="M:New_Wrapper.DataHandler.InsertData(System.String,System.String,System.String)">
-            <summary>
-            Inserts data directly into the data source
-            This method creates a separate data adapter to process the insert command - it does not affect any
-            persistent connection made when creating the class
-            </summary>
-            <param name="provider">The provider string for connecting to the data source</param>
-            <param name="password">The encrypted database password</param>
             <param name="insertQuery">The insert query to be used when updating the data source</param>
         </member>
         <member name="M:New_Wrapper.DataHandler.DeleteData(System.String,System.String)">
@@ -431,16 +375,6 @@
             <param name="provider">The provider string for connecting to the data source</param>
             <param name="deleteQuery">The delete query to be used when updating the data source</param>
         </member>
-        <member name="M:New_Wrapper.DataHandler.DeleteData(System.String,System.String,System.String)">
-            <summary>
-            Deletes data directly from the data source
-            this method creates a separate data adapter to process the delete command - it does not affect any
-            persistent connection made when creating the class
-            </summary>
-            <param name="provider">The provider string for connecting to the data source</param>
-            <param name="password">The encrypted database password</param>
-            <param name="deleteQuery">The delete query to be used when updating the data source</param>
-        </member>
         <member name="M:New_Wrapper.DataHandler.UpdateData(System.String,System.String)">
             <summary>
             Updates data directly from the data source
@@ -449,16 +383,6 @@
             </summary>
             <param name="provider">The provider string for connecting to the data source</param>
             <param name="updateQuery">The update query to be used when updating the data source</param>
-        </member>
-        <member name="M:New_Wrapper.DataHandler.UpdateData(System.String,System.String,System.String)">
-            <summary>
-            Updates data directly from the data source
-            this method creates a separate data adapter to process the update command - it does not affect any
-            persistent connection made when creating the class
-            </summary>
-            <param name="provider">The provider string for connecting to the data source</param>
-            <param name="password">The encrypted database password</param>
-            <param name="updateQuery">The query for updating the data source</param>
         </member>
         <member name="M:New_Wrapper.DataHandler.CloseConnection">
             <summary>
@@ -510,25 +434,6 @@
             <param name="tableName">The name of the table in the database</param>
             <returns>A data table containing the columns schema for the specified table</returns>
         </member>
-        <member name="M:New_Wrapper.DataHandler.RetrieveListOfTablesInAccessDatabase(System.String,System.String,System.Boolean)">
-            <summary>
-            Retrieve a list of the tables in a specified Access database
-            </summary>
-            <param name="filePath">The full path to the mdb file (including path and file name)</param>
-            <param name="password">The password for the database</param>
-            <param name="encrypted">Whether the password is encrypted</param>
-            <returns>A data table containing the tables schema for the specified database</returns>
-        </member>
-        <member name="M:New_Wrapper.DataHandler.RetrieveColumnSchemaForAccessTable(System.String,System.String,System.Boolean,System.String)">
-            <summary>
-            Retrieve a list of the columns in a specified Access table
-            </summary>
-            <param name="filePath">The full path to the mdb file (including path and file name)</param>
-            <param name="password">The password for the database</param>
-            <param name="encrypted">Whether the password is encrypted</param>
-            <param name="tableName">The name of the Access data table</param>
-            <returns>A data table containing the columns schema for the specified table</returns>
-        </member>
         <member name="T:New_Wrapper.MultiTableHandler">
             <summary>
             Handles the connecting to and updating of data using OLE
@@ -570,31 +475,12 @@
             the second 'sub element'
             For instance, selectQueries[0,0] = "tblMain" selectQueries[0,1] = "SELECT...."</remarks>
         </member>
-        <member name="M:New_Wrapper.MultiTableHandler.#ctor(System.String[0:,0:],System.String,System.String)">
-            <summary>
-            Initialises the class and set the relevant properties
-            </summary>
-            <param name="passedQueries">The array containing the list of tables and associated queries</param>
-            <param name="passedProvider">The provider sting for connecting to the database</param>
-            <param name="passedPassword">The eencrypted password of the database</param>
-            <remarks>The table name should be the first 'sub element' followed by the appropriate SQL query as
-            the second 'sub element'
-            For instance, selectQueries[0,0] = "tblMain" selectQueries[0,1] = "SELECT...."</remarks>
-        </member>
         <member name="M:New_Wrapper.MultiTableHandler.connectToData(System.String[0:,0:],System.String)">
             <summary>
             Connects to the data source and populates a data set with the requested tables
             </summary>
             <param name="passedQueries">The table names and SQL queries that the data tables will be based on</param>
             <param name="passedProvider">The provider string for connecting to the data source</param>
-        </member>
-        <member name="M:New_Wrapper.MultiTableHandler.connectToData(System.String[0:,0:],System.String,System.String)">
-            <summary>
-            Connects to the data source and populates a data set with the requested tables
-            </summary>
-            <param name="passedQueries">The table names and SQL queries that the data tables will be based on</param>
-            <param name="passedProvider">The provider string for connecting to the data source</param>
-            <param name="passedPassword">The database's encrypted password</param>
         </member>
         <member name="M:New_Wrapper.MultiTableHandler.connectToData">
             <summary>

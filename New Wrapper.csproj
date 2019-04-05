@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="New Wrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Users\4825330\Desktop\CustEdNewWrapper\New Wrapper.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,16 +56,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DMB Team Tools\DMBTools\DMBTools\DMBTools.csproj">
-      <Project>{cc2b004e-9695-47ae-a2ce-b53b080d36b0}</Project>
-      <Name>DMBTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EncryptionStringClass\DMBEncryptString\DMBEncryptString.csproj">
-      <Project>{afc5c62f-1795-48ee-a3b4-dd1a06dcff1e}</Project>
-      <Name>DMBEncryptString</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

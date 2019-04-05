@@ -12,3 +12,9 @@ C:\DeveloperShare\CommonComponents\New wrapper\bin\Release\DMBEncryptString.pdb
 C:\DeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.csprojResolveAssemblyReference.cache
 C:\DeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.dll
 C:\DeveloperShare\CommonComponents\New wrapper\obj\Release\New Wrapper.pdb
+C:\Users\Scott\BDApp\New-wrapper\bin\Release\New Wrapper.dll
+C:\Users\Scott\BDApp\New-wrapper\bin\Release\New Wrapper.pdb
+C:\Users\Scott\BDApp\New-wrapper\obj\Release\New Wrapper.csproj.CoreCompileInputs.cache
+C:\Users\Scott\BDApp\New-wrapper\obj\Release\New Wrapper.dll
+C:\Users\Scott\BDApp\New-wrapper\obj\Release\New Wrapper.pdb
+C:\Users\Scott\BDApp\New-wrapper\obj\Release\New Wrapper.csprojAssemblyReference.cache
